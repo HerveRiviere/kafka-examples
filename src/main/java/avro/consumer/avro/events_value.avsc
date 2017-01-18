@@ -1,0 +1,14 @@
+{"namespace": "avro.consumer.model",
+ "type": "record",
+ "name": "Events",
+ "fields": [
+     {"name":"id","type":"long"},
+     {"name":"datetime","type":["null","long"]},
+     {"name":"customer","type":["null","string"]},
+     {"name":"establishment","type":["null","string"]},
+     {"name":"deposit","type":["null","string"]},
+     {"name":"item","type":["null","string"]},
+     {"name":"way","type":["null","string"]},
+     {"name":"quantity","type":["null","int"]}
+ ]
+}
