@@ -8,6 +8,7 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 public class ProducerString {
 
@@ -20,19 +21,14 @@ public class ProducerString {
 
     KafkaProducer<String, String> producer = new KafkaProducer<String, String>(props);
     ProducerRecord<String, String> record = new ProducerRecord<String, String>(topic, "myKey","myValue");
-    producer.send(record, new Callback() {
-      @Override
-      public void onCompletion(RecordMetadata metadata, Exception exception) {
-        if (exception!= null)
-          exception.printStackTrace();
-        else
-          System.out.println(String.format("offset %s",metadata.offset()));
-
-      }
-    });
-
-
-
+    try {
+      RecordMetadata ack = producer.send(record).get();
+      System.out.printf(String.format("Send message with offset %d to topic %s - partition %d", ack.offset(), ack.topic(), ack.partition()));
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    } catch (ExecutionException e) {
+      e.printStackTrace();
+    }
 
 
   }
